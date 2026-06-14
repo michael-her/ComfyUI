@@ -1,0 +1,37 @@
+[
+  {
+    "tag": "Button",
+    "display_name": "Button",
+    "category": "sjsx/react-native/ui",
+    "doc_url": "https://reactnative.dev/docs/button",
+    "description": "Basic button for handling touches on any platform.",
+    "can_have_children": false,
+    "attrs": {
+      "cx": { "type": "string", "optional": true, "widget": "text" },
+      "title": { "type": "string", "optional": false, "widget": "text" },
+      "color": { "type": "string", "optional": true },
+      "disabled": { "type": "boolean", "optional": true }
+    },
+    "events": {
+      "onPress": { "type": "handler", "optional": true }
+    }
+  },
+  {
+    "tag": "Switch",
+    "display_name": "Switch",
+    "category": "sjsx/react-native/ui",
+    "doc_url": "https://reactnative.dev/docs/switch",
+    "description": "Renders a boolean input.",
+    "can_have_children": false,
+    "attrs": {
+      "cx": { "type": "string", "optional": true, "widget": "text" },
+      "value": { "type": "boolean", "optional": true },
+      "disabled": { "type": "boolean", "optional": true },
+      "trackColor": { "type": "object", "optional": true },
+      "thumbColor": { "type": "string", "optional": true }
+    },
+    "events": {
+      "onValueChange": { "type": "handler", "optional": true }
+    }
+  }
+]

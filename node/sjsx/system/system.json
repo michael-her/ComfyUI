@@ -1,0 +1,61 @@
+[
+  {
+    "tag": "Store",
+    "display_name": "Store",
+    "category": "sjsx/system/state",
+    "kind": "state",
+    "layer": "system",
+    "description": "Redux pre-16 style store definition.",
+    "can_have_children": false,
+    "attrs": {
+      "state": { "type": "object", "optional": false, "widget": "json" },
+      "reducers": { "type": "object", "optional": true, "widget": "json" }
+    },
+    "events": {}
+  },
+  {
+    "tag": "Connect",
+    "display_name": "Connect",
+    "category": "sjsx/system/state",
+    "kind": "state",
+    "layer": "ui",
+    "description": "mapStateToProps / mapDispatch connector.",
+    "can_have_children": false,
+    "attrs": {
+      "store": { "type": "reference", "optional": false },
+      "mapState": { "type": "handler", "optional": true },
+      "mapDispatch": { "type": "object", "optional": true }
+    },
+    "events": {}
+  },
+  {
+    "tag": "ThreadPool",
+    "display_name": "ThreadPool",
+    "category": "sjsx/system/workers",
+    "kind": "system",
+    "layer": "system",
+    "description": "Background worker pool.",
+    "can_have_children": true,
+    "attrs": {
+      "cx": { "type": "string", "optional": true, "widget": "text" }
+    },
+    "events": {}
+  },
+  {
+    "tag": "DbJob",
+    "display_name": "DbJob",
+    "category": "sjsx/system/workers",
+    "kind": "system",
+    "layer": "system",
+    "description": "Database job unit.",
+    "can_have_children": false,
+    "attrs": {
+      "cx": { "type": "string", "optional": true, "widget": "text" },
+      "query": { "type": "string", "optional": false, "widget": "text" }
+    },
+    "events": {
+      "onSuccess": { "type": "handler", "optional": true },
+      "onFailure": { "type": "handler", "optional": true }
+    }
+  }
+]

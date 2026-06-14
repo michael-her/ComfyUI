@@ -291,3 +291,40 @@ async def test_listuserdata_v2_url_encoded_path(aiohttp_client, app, tmp_path):
     assert entry["name"] == "file.txt"
     # Ensure the path is correctly decoded and uses forward slash
     assert entry["path"] == "my dir/file.txt"
+
+
+async def test_listuserdata_v2_hides_workflow_sjsx_companions(aiohttp_client, app, tmp_path):
+    workflows = tmp_path / "workflows"
+    workflows.mkdir(parents=True)
+    (workflows / "hello.json").write_text("{}", encoding="utf-8")
+    (workflows / "hello.sjsx").write_text("/** @sjsx */", encoding="utf-8")
+    design = tmp_path / "design"
+    design.mkdir(parents=True)
+    (design / "todo.sjsx").write_text("/** @sjsx */", encoding="utf-8")
+
+    client = await aiohttp_client(app)
+    resp = await client.get("/v2/userdata?path=workflows")
+    assert resp.status == 200
+    data = await resp.json()
+    file_paths = {item["path"] for item in data if item["type"] == "file"}
+    assert file_paths == {"workflows/hello.json"}
+
+    resp = await client.get("/v2/userdata?path=design")
+    assert resp.status == 200
+    data = await resp.json()
+    file_paths = {item["path"] for item in data if item["type"] == "file"}
+    assert file_paths == {"design/todo.sjsx"}
+
+
+async def test_listuserdata_hides_workflow_sjsx_companions(aiohttp_client, app, tmp_path):
+    workflows = tmp_path / "workflows"
+    workflows.mkdir(parents=True)
+    (workflows / "hello.json").write_text("{}", encoding="utf-8")
+    (workflows / "hello.sjsx").write_text("/** @sjsx */", encoding="utf-8")
+
+    client = await aiohttp_client(app)
+    resp = await client.get("/userdata?dir=workflows&recurse=true&full_info=true")
+    assert resp.status == 200
+    data = await resp.json()
+    file_paths = {item["path"] for item in data}
+    assert file_paths == {"hello.json"}

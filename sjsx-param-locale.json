@@ -1,0 +1,27 @@
+{
+  "ko": [
+    { "from": "\"advancedInputs\": \"고급 입력\"", "to": "\"advancedInputs\": \"고급 파라미터\"" },
+    { "from": "\"showAdvancedInputsButton\": \"고급 입력 표시\"", "to": "\"showAdvancedInputsButton\": \"고급 파라미터 표시\"" },
+    { "from": "\"hideAdvancedInputsButton\": \"고급 입력 숨기기\"", "to": "\"hideAdvancedInputsButton\": \"고급 파라미터 숨기기\"" },
+    { "from": "\"hideInput\": \"입력 숨기기\"", "to": "\"hideInput\": \"파라미터 숨기기\"" },
+    { "from": "\"showInput\": \"입력 표시\"", "to": "\"showInput\": \"파라미터 표시\"" },
+    { "from": "\"inputsNone\": \"입력 없음\"", "to": "\"inputsNone\": \"파라미터 없음\"" },
+    { "from": "\"inputsNoneTooltip\": \"노드에 입력이 없습니다\"", "to": "\"inputsNoneTooltip\": \"노드에 파라미터가 없습니다\"" },
+    { "from": "\"favorites\": \"즐겨찾는 입력\"", "to": "\"favorites\": \"즐겨찾는 파라미터\"" },
+    { "from": "\"favoritesNone\": \"즐겨찾는 입력 없음\"", "to": "\"favoritesNone\": \"즐겨찾는 파라미터 없음\"" },
+    { "from": "\"favoritesNoneDesc\": \"즐겨찾기한 입력이 여기에 표시됩니다\"", "to": "\"favoritesNoneDesc\": \"즐겨찾기한 파라미터가 여기에 표시됩니다\"" },
+    { "from": "\"favoritesNoneHint\": \"파라미터 탭에서 원하는 입력의 {moreIcon}을 클릭해 여기에 추가하세요\"", "to": "\"favoritesNoneHint\": \"파라미터 탭에서 원하는 파라미터의 {moreIcon}을 클릭해 여기에 추가하세요\"" },
+    { "from": "\"info\": \"정보\",\n    \"inputs\": \"입력\"", "to": "\"info\": \"정보\",\n    \"inputs\": \"파라미터\"" }
+  ],
+  "en": [
+    { "from": "\"advancedInputs\": \"ADVANCED INPUTS\"", "to": "\"advancedInputs\": \"ADVANCED PARAMETERS\"" },
+    { "from": "\"showAdvancedInputsButton\": \"Show advanced inputs\"", "to": "\"showAdvancedInputsButton\": \"Show advanced parameters\"" },
+    { "from": "\"hideAdvancedInputsButton\": \"Hide advanced inputs\"", "to": "\"hideAdvancedInputsButton\": \"Hide advanced parameters\"" },
+    { "from": "\"hideInput\": \"Hide input\"", "to": "\"hideInput\": \"Hide parameter\"" },
+    { "from": "\"showInput\": \"Show input\"", "to": "\"showInput\": \"Show parameter\"" },
+    { "from": "\"inputs\": \"INPUTS\"", "to": "\"inputs\": \"PARAMETERS\"" },
+    { "from": "\"inputsNone\": \"NO INPUTS\"", "to": "\"inputsNone\": \"NO PARAMETERS\"" },
+    { "from": "\"inputsNoneTooltip\": \"Node has no inputs\"", "to": "\"inputsNoneTooltip\": \"Node has no parameters\"" },
+    { "from": "\"favoritesNoneHint\": \"In the Parameters tab, click {moreIcon} on any input to add it here\"", "to": "\"favoritesNoneHint\": \"In the Parameters tab, click {moreIcon} on any parameter to add it here\"" }
+  ]
+}

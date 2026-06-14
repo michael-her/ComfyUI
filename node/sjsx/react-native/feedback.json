@@ -1,0 +1,52 @@
+[
+  {
+    "tag": "ActivityIndicator",
+    "display_name": "ActivityIndicator",
+    "category": "sjsx/react-native/feedback",
+    "doc_url": "https://reactnative.dev/docs/activityindicator",
+    "description": "Circular loading indicator.",
+    "can_have_children": false,
+    "attrs": {
+      "cx": { "type": "string", "optional": true, "widget": "text" },
+      "animating": { "type": "boolean", "optional": true, "default": true },
+      "color": { "type": "string", "optional": true },
+      "size": { "type": "enum", "optional": true, "options": ["small", "large"] }
+    },
+    "events": {}
+  },
+  {
+    "tag": "RefreshControl",
+    "display_name": "RefreshControl",
+    "category": "sjsx/react-native/feedback",
+    "doc_url": "https://reactnative.dev/docs/refreshcontrol",
+    "description": "Pull-to-refresh control used inside ScrollView or FlatList.",
+    "can_have_children": false,
+    "kind": "slot",
+    "attrs": {
+      "cx": { "type": "string", "optional": true, "widget": "text" },
+      "refreshing": { "type": "boolean", "optional": true },
+      "colors": { "type": "array", "optional": true },
+      "tintColor": { "type": "string", "optional": true },
+      "title": { "type": "string", "optional": true }
+    },
+    "events": {
+      "onRefresh": { "type": "handler", "optional": true }
+    }
+  },
+  {
+    "tag": "StatusBar",
+    "display_name": "StatusBar",
+    "category": "sjsx/react-native/feedback",
+    "doc_url": "https://reactnative.dev/docs/statusbar",
+    "description": "Controls the app status bar appearance.",
+    "can_have_children": false,
+    "attrs": {
+      "cx": { "type": "string", "optional": true, "widget": "text" },
+      "barStyle": { "type": "enum", "optional": true, "options": ["default", "light-content", "dark-content"] },
+      "hidden": { "type": "boolean", "optional": true },
+      "backgroundColor": { "type": "string", "optional": true, "platform": "android" },
+      "translucent": { "type": "boolean", "optional": true, "platform": "android" }
+    },
+    "events": {}
+  }
+]

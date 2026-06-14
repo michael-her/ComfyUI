@@ -1,0 +1,32 @@
+[
+  {
+    "tag": "InputAccessoryView",
+    "display_name": "InputAccessoryView",
+    "category": "sjsx/react-native/ios",
+    "doc_url": "https://reactnative.dev/docs/inputaccessoryview",
+    "description": "Custom toolbar above the keyboard on iOS.",
+    "platform": "ios",
+    "can_have_children": true,
+    "attrs": {
+      "cx": { "type": "string", "optional": true, "widget": "text" },
+      "backgroundColor": { "type": "string", "optional": true },
+      "nativeID": { "type": "string", "optional": true }
+    },
+    "events": {}
+  },
+  {
+    "tag": "SafeAreaView",
+    "display_name": "SafeAreaView",
+    "category": "sjsx/react-native/ios",
+    "doc_url": "https://reactnative.dev/docs/safeareaview",
+    "description": "View that renders within the safe area boundary. Deprecated in RN; prefer safe area context in implementation.",
+    "platform": "ios",
+    "deprecated": true,
+    "can_have_children": true,
+    "attrs": {
+      "cx": { "type": "string", "optional": true, "widget": "text" },
+      "edges": { "type": "array", "optional": true, "description": "top | right | bottom | left" }
+    },
+    "events": {}
+  }
+]

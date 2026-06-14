@@ -1,0 +1,91 @@
+/**
+ * @sjsx
+ * domain: TodoApp
+ * layer: ui
+ * status: design
+ *
+ * 합의 항목:
+ * [x] 화면 구조
+ * [x] 이벤트 바인딩
+ * [ ] 빈 상태 UI 디자인
+ * [ ] 에러 상태 처리
+ */
+
+// ─── Store 연결 (mapStateToProps 패턴) ────────────────────────────────────────
+
+const TodoAppProps = <Connect
+  store={TodoStore}
+  mapState={state => ({
+    todos:      state.todos,
+    filter:     state.filter,
+    syncStatus: state.syncStatus,
+  })}
+  mapDispatch={{
+    onAdd:    text   => TodoStore.dispatch(addTodo({text})),
+    onToggle: id     => TodoStore.dispatch(toggleTodo({id})),
+    onFilter: filter => TodoStore.dispatch(setFilter({filter})),
+  }}
+/>
+
+// ─── UI Layer ─────────────────────────────────────────────────────────────────
+
+const TodoApp = (
+  <View cx="flex-1 bg-neutral-950">
+
+    <View cx="px-6 pt-12 pb-4 flex-row items-center justify-between">
+      <Text cx="text-2xl font-bold text-white">todos</Text>
+      <SyncBadge status={TodoAppProps.syncStatus} />
+    </View>
+
+    <TodoInput
+      cx="mx-6 mb-4"
+      onSubmit={TodoAppProps.onAdd}
+    />
+
+    <FilterBar
+      cx="mx-6 mb-2"
+      active={TodoAppProps.filter}
+      onSelect={TodoAppProps.onFilter}
+      options={["all", "active", "done"]}
+    />
+
+    <FlatList
+      cx="flex-1"
+      data={TodoAppProps.todos}
+      keyExtractor={todo => todo.id}
+      renderItem={todo =>
+        <TodoItem
+          key={todo.id}
+          todo={todo}
+          onToggle={() => TodoAppProps.onToggle(todo.id)}
+        />
+      }
+      ListEmptyComponent={<EmptyState />}  // [ ] 디자인 미합의
+    />
+
+  </View>
+)
+
+// ─── Sub-components ───────────────────────────────────────────────────────────
+
+const TodoItem = (
+  <TouchableOpacity
+    cx="flex-row items-center px-6 py-4 border-b border-neutral-800"
+    onPress={props.onToggle}
+  >
+    <Checkbox cx="mr-3" checked={props.todo.done} />
+    <Text cx={`flex-1 text-base ${props.todo.done ? "line-through text-neutral-500" : "text-white"}`}>
+      {props.todo.text}
+    </Text>
+  </TouchableOpacity>
+)
+
+const SyncBadge = (
+  <View cx={`px-2 py-1 rounded-full ${
+    props.status === "syncing" ? "bg-blue-500/20" :
+    props.status === "error"   ? "bg-red-500/20"  :
+                                 "bg-green-500/20"
+  }`}>
+    <Text cx="text-xs text-neutral-400">{props.status}</Text>
+  </View>
+)

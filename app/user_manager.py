@@ -16,6 +16,60 @@ from typing import TypedDict
 default_user = "default"
 
 
+def _is_workflow_sjsx_companion_path(rel_path: str) -> bool:
+    normalized = rel_path.replace("\\", "/")
+    if not normalized.lower().endswith(".sjsx"):
+        return False
+    return normalized == "workflows" or normalized.startswith("workflows/")
+
+
+def _should_hide_workflow_sjsx_companion(directory: str, rel_path: str) -> bool:
+    dir_norm = directory.replace("\\", "/").strip("/")
+    if dir_norm != "workflows" and not dir_norm.startswith("workflows/"):
+        return False
+    file_name = rel_path.replace("\\", "/").rsplit("/", 1)[-1]
+    return file_name.lower().endswith(".sjsx")
+
+
+def _normalize_sjsx_workflow_bytes(body: bytes) -> bytes:
+    try:
+        workflow = json.loads(body)
+    except (json.JSONDecodeError, UnicodeDecodeError):
+        return body
+    if not isinstance(workflow, dict):
+        return body
+
+    from app.sjsx.workflow import is_sjsx_workflow
+
+    if not is_sjsx_workflow(workflow):
+        return body
+
+    from app.sjsx.workflow_normalize import normalize_sjsx_workflow
+
+    extra = workflow.setdefault("extra", {})
+    extra["document_type"] = "sjsx"
+    sjsx_meta = extra.setdefault("sjsx", {})
+    sjsx_meta.setdefault("domain", "NewApp")
+    sjsx_meta.setdefault("layer", "ui")
+    sjsx_meta.setdefault("status", "design")
+    workflow["document_type"] = "sjsx"
+    normalize_sjsx_workflow(workflow)
+    return json.dumps(workflow, ensure_ascii=False, indent=2).encode("utf-8")
+
+
+def _write_sjsx_companion(json_path: str, body: bytes) -> None:
+    try:
+        workflow = json.loads(body)
+    except (json.JSONDecodeError, UnicodeDecodeError):
+        return
+    if not isinstance(workflow, dict):
+        return
+
+    from app.sjsx.workflow_sync import write_sjsx_companion_file
+
+    write_sjsx_companion_file(json_path, workflow)
+
+
 class FileInfo(TypedDict):
     path: str
     size: int
@@ -206,6 +260,10 @@ class UserManager():
                 process_full_path(full_path)
                 for full_path in glob.glob(pattern, recursive=recurse)
                 if os.path.isfile(full_path)
+                and not _should_hide_workflow_sjsx_companion(
+                    directory,
+                    os.path.relpath(full_path, path).replace(os.sep, "/"),
+                )
             ]
 
             return web.json_response(results)
@@ -294,6 +352,8 @@ class UserManager():
                     for file_name in files:
                         file_path = os.path.join(root, file_name)
                         rel_path = os.path.relpath(file_path, base_user_path).replace(os.sep, '/')
+                        if _is_workflow_sjsx_companion_path(rel_path):
+                            continue
                         entry_info = {
                             "name": file_name,
                             "path": rel_path,
@@ -376,6 +436,7 @@ class UserManager():
 
             try:
                 body = await request.read()
+                body = _normalize_sjsx_workflow_bytes(body)
 
                 dir_name = os.path.dirname(path)
                 fd, tmp_path = tempfile.mkstemp(dir=dir_name)
@@ -386,6 +447,9 @@ class UserManager():
                 except:
                     os.unlink(tmp_path)
                     raise
+
+                if path.lower().endswith(".json"):
+                    _write_sjsx_companion(path, body)
             except OSError as e:
                 logging.warning(f"Error saving file '{path}': {e}")
                 return web.Response(

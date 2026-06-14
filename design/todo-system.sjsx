@@ -1,0 +1,52 @@
+/**
+ * @sjsx
+ * domain: TodoApp
+ * layer: system
+ * status: design
+ *
+ * 합의 항목:
+ * [x] ThreadPool 설정
+ * [x] DB 작업 단위
+ * [ ] 에러 핸들링 전략 (retry vs dead-letter?)
+ */
+
+// ─── Store (Redux pre-16 패턴) ────────────────────────────────────────────────
+
+const TodoStore = <Store
+  state={{
+    todos: Todo[],
+    filter: "all" | "active" | "done",
+    syncStatus: "idle" | "syncing" | "error",
+  }}
+  reducers={{
+    addTodo:    (state, action: {text: string}) => Todo,
+    toggleTodo: (state, action: {id: string})   => Todo,
+    setFilter:  (state, action: {filter})        => void,
+  }}
+/>
+
+// ─── System Layer ─────────────────────────────────────────────────────────────
+
+const TodoSyncWorker = (
+  <ThreadPool cx="threads4 affinity0 cancel-flag">
+    {pendingTodos.forEach(todo =>
+      <DbJob
+        query="INSERT INTO todos (id, text, done) VALUES ({todo.id}, {todo.text}, {todo.done})
+               ON CONFLICT (id) DO UPDATE SET done={todo.done}"
+        cx="retry3 transaction"
+        onSuccess={id => TodoStore.dispatch(markSynced(id))}
+        onFailure={id => TodoStore.dispatch(markError(id))}
+      />
+    )}
+  </ThreadPool>
+)
+
+const TodoQueryWorker = (
+  <ThreadPool cx="threads2 readonly">
+    <DbJob
+      query="SELECT * FROM todos WHERE filter={activeFilter} ORDER BY created_at DESC"
+      cx="cache-ttl30"
+      onSuccess={rows => TodoStore.dispatch(loadTodos(rows))}
+    />
+  </ThreadPool>
+)

@@ -1,0 +1,71 @@
+[
+  {
+    "tag": "FlatList",
+    "display_name": "FlatList",
+    "category": "sjsx/react-native/lists",
+    "doc_url": "https://reactnative.dev/docs/flatlist",
+    "description": "Performant scrollable list; renders only visible items.",
+    "can_have_children": true,
+    "attrs": {
+      "cx": { "type": "string", "optional": true, "widget": "text" },
+      "data": { "type": "array", "optional": true, "description": "Bound from store or inline array" },
+      "keyExtractor": { "type": "handler", "optional": true },
+      "horizontal": { "type": "boolean", "optional": true },
+      "numColumns": { "type": "number", "optional": true }
+    },
+    "events": {
+      "onRefresh": { "type": "handler", "optional": true },
+      "onEndReached": { "type": "handler", "optional": true }
+    },
+    "slots": {
+      "renderItem": { "type": "component", "required": true },
+      "ListEmptyComponent": { "type": "component", "optional": true },
+      "ListHeaderComponent": { "type": "component", "optional": true },
+      "ListFooterComponent": { "type": "component", "optional": true }
+    }
+  },
+  {
+    "tag": "SectionList",
+    "display_name": "SectionList",
+    "category": "sjsx/react-native/lists",
+    "doc_url": "https://reactnative.dev/docs/sectionlist",
+    "description": "Like FlatList, but for sectioned lists.",
+    "can_have_children": true,
+    "attrs": {
+      "cx": { "type": "string", "optional": true, "widget": "text" },
+      "sections": { "type": "array", "optional": true },
+      "keyExtractor": { "type": "handler", "optional": true },
+      "stickySectionHeadersEnabled": { "type": "boolean", "optional": true }
+    },
+    "events": {
+      "onRefresh": { "type": "handler", "optional": true },
+      "onEndReached": { "type": "handler", "optional": true }
+    },
+    "slots": {
+      "renderItem": { "type": "component", "required": true },
+      "renderSectionHeader": { "type": "component", "optional": true },
+      "ListEmptyComponent": { "type": "component", "optional": true }
+    }
+  },
+  {
+    "tag": "VirtualizedList",
+    "display_name": "VirtualizedList",
+    "category": "sjsx/react-native/lists",
+    "doc_url": "https://reactnative.dev/docs/virtualizedlist",
+    "description": "Base implementation for FlatList and SectionList.",
+    "can_have_children": true,
+    "attrs": {
+      "cx": { "type": "string", "optional": true, "widget": "text" },
+      "data": { "type": "array", "optional": true },
+      "getItem": { "type": "handler", "optional": true },
+      "getItemCount": { "type": "handler", "optional": true },
+      "keyExtractor": { "type": "handler", "optional": true }
+    },
+    "events": {
+      "onEndReached": { "type": "handler", "optional": true }
+    },
+    "slots": {
+      "renderItem": { "type": "component", "required": true }
+    }
+  }
+]

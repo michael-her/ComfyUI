@@ -7,6 +7,8 @@ __pycache__/
 /temp/
 /custom_nodes/
 !custom_nodes/example_node.py.example
+!custom_nodes/sjsx/
+!custom_nodes/sjsx/**
 extra_model_paths.yaml
 /.vs
 .vscode/
@@ -20,6 +22,9 @@ venv*/
 /user/
 *.log
 web_custom_versions/
+/frontend/ComfyUI_frontend/
+/frontend/.tools/node_modules
+/web/comfyui-frontend/
 .DS_Store
 filtered-openapi.yaml
 uv.lock

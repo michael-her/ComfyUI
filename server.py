@@ -45,6 +45,8 @@ from app.model_manager import ModelFileManager
 from app.custom_node_manager import CustomNodeManager
 from app.subgraph_manager import SubgraphManager
 from app.node_replace_manager import NodeReplaceManager
+from app.sjsx.guard import is_sjsx_queue_request, sjsx_queue_error
+from app.sjsx.routes import register_sjsx_routes
 from typing import Optional, Union
 from api_server.routes.internal.internal_routes import InternalRoutes
 from protocol import BinaryEventTypes
@@ -932,6 +934,12 @@ class PromptServer():
             json_data =  await request.json()
             json_data = self.trigger_on_prompt(json_data)
 
+            if is_sjsx_queue_request(json_data):
+                return web.json_response(
+                    {"error": sjsx_queue_error(), "node_errors": {}},
+                    status=400,
+                )
+
             if "number" in json_data:
                 number = float(json_data['number'])
             else:
@@ -1080,6 +1088,7 @@ class PromptServer():
         self.custom_node_manager.add_routes(self.routes, self.app, nodes.LOADED_MODULE_DIRS.items())
         self.subgraph_manager.add_routes(self.routes, nodes.LOADED_MODULE_DIRS.items())
         self.node_replace_manager.add_routes(self.routes)
+        register_sjsx_routes(self.app, self.user_manager)
         self.app.add_subapp('/internal', self.internal_routes.get_app())
 
         # Prefix every route with /api for easier matching for delegation.
@@ -1131,6 +1140,12 @@ class PromptServer():
         if embedded_docs_path:
             self.app.add_routes([
                 web.static('/docs', embedded_docs_path)
+            ])
+
+        sjsx_app_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "web", "sjsx")
+        if os.path.isdir(sjsx_app_path):
+            self.app.add_routes([
+                web.static('/sjsx-app', sjsx_app_path)
             ])
 
         self.app.add_routes([

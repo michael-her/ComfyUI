@@ -1,0 +1,55 @@
+[
+  {
+    "tag": "ImageBackground",
+    "display_name": "ImageBackground",
+    "category": "sjsx/react-native/layout",
+    "doc_url": "https://reactnative.dev/docs/imagebackground",
+    "description": "Like View but with an image background.",
+    "can_have_children": true,
+    "attrs": {
+      "cx": { "type": "string", "optional": true, "widget": "text" },
+      "source": { "type": "string", "optional": false, "widget": "text" },
+      "resizeMode": { "type": "enum", "optional": true, "options": ["cover", "contain", "stretch", "repeat", "center"] },
+      "imageStyle": { "type": "object", "optional": true }
+    },
+    "events": {
+      "onLoad": { "type": "handler", "optional": true },
+      "onError": { "type": "handler", "optional": true }
+    }
+  },
+  {
+    "tag": "KeyboardAvoidingView",
+    "display_name": "KeyboardAvoidingView",
+    "category": "sjsx/react-native/layout",
+    "doc_url": "https://reactnative.dev/docs/keyboardavoidingview",
+    "description": "View that moves out of the way of the virtual keyboard.",
+    "can_have_children": true,
+    "attrs": {
+      "cx": { "type": "string", "optional": true, "widget": "text" },
+      "behavior": { "type": "enum", "optional": true, "options": ["height", "position", "padding"] },
+      "keyboardVerticalOffset": { "type": "number", "optional": true },
+      "enabled": { "type": "boolean", "optional": true }
+    },
+    "events": {}
+  },
+  {
+    "tag": "Modal",
+    "display_name": "Modal",
+    "category": "sjsx/react-native/layout",
+    "doc_url": "https://reactnative.dev/docs/modal",
+    "description": "Presents content above an enclosing view.",
+    "can_have_children": true,
+    "attrs": {
+      "cx": { "type": "string", "optional": true, "widget": "text" },
+      "visible": { "type": "boolean", "optional": true },
+      "animationType": { "type": "enum", "optional": true, "options": ["none", "slide", "fade"] },
+      "transparent": { "type": "boolean", "optional": true },
+      "presentationStyle": { "type": "enum", "optional": true, "options": ["fullScreen", "pageSheet", "formSheet", "overFullScreen"] }
+    },
+    "events": {
+      "onRequestClose": { "type": "handler", "optional": true },
+      "onShow": { "type": "handler", "optional": true },
+      "onDismiss": { "type": "handler", "optional": true }
+    }
+  }
+]

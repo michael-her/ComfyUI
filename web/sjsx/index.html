@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sementic JSX — Design</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, sans-serif; }
+    body { margin: 0; background: #0a0a0a; color: #e5e5e5; }
+    header { padding: 1rem 1.5rem; border-bottom: 1px solid #262626; display: flex; gap: 1rem; align-items: center; }
+    main { padding: 1.5rem; max-width: 960px; margin: 0 auto; }
+    .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+    .card { border: 1px solid #404040; border-radius: 12px; padding: 1.25rem; cursor: pointer; background: #171717; }
+    .card:hover { border-color: #737373; }
+    .card h3 { margin: 0 0 .5rem; }
+    .card p { margin: 0; color: #a3a3a3; font-size: .9rem; }
+    dialog { border: 1px solid #404040; border-radius: 12px; background: #171717; color: inherit; padding: 1.5rem; max-width: 480px; }
+    dialog::backdrop { background: rgba(0,0,0,.6); }
+    button { background: #2563eb; color: white; border: none; padding: .5rem 1rem; border-radius: 8px; cursor: pointer; }
+    button.secondary { background: #404040; }
+    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    th, td { text-align: left; padding: .5rem; border-bottom: 1px solid #262626; }
+    .bar { font-family: monospace; letter-spacing: 1px; }
+    pre { background: #171717; padding: 1rem; border-radius: 8px; overflow: auto; font-size: .85rem; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <header>
+    <strong>Sementic JSX</strong>
+    <button id="btnNew">새 문서</button>
+    <button id="btnRefresh" class="secondary">새로고침</button>
+    <a href="/" style="color:#93c5fd;margin-left:auto">← ComfyUI</a>
+  </header>
+  <main>
+    <h2>Designs</h2>
+    <p><code>/design/*.sjsx</code> — API: <code>/sjsx/designs</code></p>
+    <table>
+      <thead><tr><th>파일</th><th>domain</th><th>layer</th><th>합의</th></tr></thead>
+      <tbody id="designList"></tbody>
+    </table>
+    <section id="detail" class="hidden">
+      <h2 id="detailTitle"></h2>
+      <p id="detailMeta"></p>
+      <button id="btnScaffold">Scaffold 생성</button>
+      <pre id="detailSource"></pre>
+    </section>
+  </main>
+
+  <dialog id="newDialog">
+    <h2 style="margin-top:0">새 문서 만들기</h2>
+    <div class="cards">
+      <div class="card" data-type="comfyui">
+        <h3>ComfyUI Workflow</h3>
+        <p>이미지·비디오 생성 워크플로 (.json)</p>
+      </div>
+      <div class="card" data-type="sjsx">
+        <h3>Semantic JSX Design</h3>
+        <p>UI/시스템 의도 설계 (.sjsx)</p>
+      </div>
+    </div>
+    <div style="margin-top:1rem;display:flex;gap:.5rem;justify-content:flex-end">
+      <button class="secondary" id="btnCancel">취소</button>
+    </div>
+  </dialog>
+
+  <script>
+    const API = '/sjsx';
+    const dialog = document.getElementById('newDialog');
+
+    async function loadDesigns() {
+      const res = await fetch(`${API}/designs`);
+      const rows = await res.json();
+      const tbody = document.getElementById('designList');
+      tbody.innerHTML = rows.map(r => {
+        const bar = '█'.repeat(Math.round(r.percent/10)) + '░'.repeat(10 - Math.round(r.percent/10));
+        return `<tr data-name="${r.name}"><td>${r.name}</td><td>${r.domain||'—'}</td><td>${r.layer||'—'}</td><td class="bar">${bar} ${r.percent}%</td></tr>`;
+      }).join('');
+      tbody.querySelectorAll('tr').forEach(tr => tr.onclick = () => showDesign(tr.dataset.name));
+    }
+
+    async function showDesign(name) {
+      const res = await fetch(`${API}/designs/${encodeURIComponent(name)}`);
+      const text = await res.text();
+      document.getElementById('detail').classList.remove('hidden');
+      document.getElementById('detailTitle').textContent = name;
+      document.getElementById('detailMeta').textContent = '';
+      document.getElementById('detailSource').textContent = text;
+      document.getElementById('btnScaffold').onclick = async () => {
+        const s = await fetch(`${API}/scaffold/${encodeURIComponent(name)}`, { method: 'POST' });
+        const j = await s.json();
+        alert('Scaffold: ' + j.scaffold_path);
+      };
+    }
+
+    document.getElementById('btnNew').onclick = () => dialog.showModal();
+    document.getElementById('btnCancel').onclick = () => dialog.close();
+    document.getElementById('btnRefresh').onclick = loadDesigns;
+
+    dialog.querySelectorAll('.card').forEach(card => {
+      card.onclick = async () => {
+        const type = card.dataset.type;
+        dialog.close();
+        if (type === 'comfyui') {
+          window.location.href = '/';
+          return;
+        }
+        const name = prompt('새 .sjsx 파일명 (예: my-app.sjsx)', 'my-app.sjsx');
+        if (!name) return;
+        const template = {
+          document_type: 'sjsx', version: 1,
+          header: '/**\\n * @sjsx\\n * domain: NewApp\\n * layer: ui\\n * status: design\\n *\\n * Agreement items:\\n * [ ] Initial layout\\n */',
+          meta: { domain: 'NewApp', layer: 'ui', status: 'design' },
+          agreement: { agreed: [], pending: ['Initial layout'] },
+          sections: [], components: [], nodes: {}, bindings: {}, comments: []
+        };
+        await fetch(`${API}/designs/${encodeURIComponent(name)}`, {
+          method: 'PUT', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ graph: template })
+        });
+        await loadDesigns();
+        showDesign(name);
+      };
+    });
+
+    loadDesigns();
+  </script>
+</body>
+</html>

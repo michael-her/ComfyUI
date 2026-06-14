@@ -1,0 +1,138 @@
+[
+  {
+    "tag": "View",
+    "display_name": "View",
+    "category": "sjsx/react-native/basic",
+    "doc_url": "https://reactnative.dev/docs/view",
+    "description": "The most fundamental component for building a UI.",
+    "can_have_children": true,
+    "attrs": {
+      "cx": { "type": "string", "optional": true, "widget": "text" },
+      "state": {
+        "type": "string",
+        "optional": true,
+        "on_demand": true,
+        "description": "Redux state path key(s) consumed by this subtree"
+      },
+      "accessible": { "type": "boolean", "optional": true },
+      "accessibilityLabel": { "type": "string", "optional": true }
+    },
+    "events": {
+      "onLayout": { "type": "handler", "optional": true },
+      "onTouchStart": { "type": "handler", "optional": true },
+      "onTouchEnd": { "type": "handler", "optional": true }
+    }
+  },
+  {
+    "tag": "Text",
+    "display_name": "Text",
+    "category": "sjsx/react-native/basic",
+    "doc_url": "https://reactnative.dev/docs/text",
+    "description": "A component for displaying text.",
+    "can_have_children": true,
+    "content_slot": true,
+    "default_params": ["content"],
+    "attrs": {
+      "cx": { "type": "string", "optional": true, "widget": "text" },
+      "numberOfLines": { "type": "number", "optional": true, "on_demand": true },
+      "selectable": { "type": "boolean", "optional": true }
+    },
+    "events": {
+      "onPress": { "type": "handler", "optional": true },
+      "onLongPress": { "type": "handler", "optional": true }
+    }
+  },
+  {
+    "tag": "Image",
+    "display_name": "Image",
+    "category": "sjsx/react-native/basic",
+    "doc_url": "https://reactnative.dev/docs/image",
+    "description": "A component for displaying images.",
+    "can_have_children": false,
+    "attrs": {
+      "cx": { "type": "string", "optional": true, "widget": "text" },
+      "source": { "type": "string", "optional": false, "widget": "text", "description": "URI or require() reference" },
+      "resizeMode": { "type": "enum", "optional": true, "options": ["cover", "contain", "stretch", "repeat", "center"] }
+    },
+    "events": {
+      "onLoad": { "type": "handler", "optional": true },
+      "onError": { "type": "handler", "optional": true }
+    }
+  },
+  {
+    "tag": "TextInput",
+    "display_name": "TextInput",
+    "category": "sjsx/react-native/basic",
+    "doc_url": "https://reactnative.dev/docs/textinput",
+    "description": "A component for inputting text via a keyboard.",
+    "can_have_children": false,
+    "default_params": ["placeholder", "onChange"],
+    "outputs": [
+      { "id": "element", "type": "SJSX", "display_name": "TextInput" }
+    ],
+    "attrs": {
+      "cx": { "type": "string", "optional": true, "widget": "text", "on_demand": true },
+      "value": { "type": "string", "optional": true },
+      "placeholder": { "type": "string", "optional": true },
+      "multiline": { "type": "boolean", "optional": true },
+      "secureTextEntry": { "type": "boolean", "optional": true },
+      "keyboardType": { "type": "enum", "optional": true, "on_demand": true, "options": ["default", "email-address", "numeric", "phone-pad", "url"] }
+    },
+    "events": {
+      "onChange": { "type": "handler", "optional": true, "description": "State key published to parent components" },
+      "onSubmitEditing": { "type": "handler", "optional": true },
+      "onFocus": { "type": "handler", "optional": true },
+      "onBlur": { "type": "handler", "optional": true }
+    }
+  },
+  {
+    "tag": "Pressable",
+    "display_name": "Pressable",
+    "category": "sjsx/react-native/basic",
+    "doc_url": "https://reactnative.dev/docs/pressable",
+    "description": "Detects press interactions on any of its children.",
+    "can_have_children": true,
+    "attrs": {
+      "cx": { "type": "string", "optional": true, "widget": "text" },
+      "disabled": { "type": "boolean", "optional": true }
+    },
+    "events": {
+      "onPress": { "type": "handler", "optional": true },
+      "onLongPress": { "type": "handler", "optional": true },
+      "onPressIn": { "type": "handler", "optional": true },
+      "onPressOut": { "type": "handler", "optional": true }
+    }
+  },
+  {
+    "tag": "ScrollView",
+    "display_name": "ScrollView",
+    "category": "sjsx/react-native/basic",
+    "doc_url": "https://reactnative.dev/docs/scrollview",
+    "description": "Scrolling container that hosts multiple components and views.",
+    "can_have_children": true,
+    "attrs": {
+      "cx": { "type": "string", "optional": true, "widget": "text" },
+      "horizontal": { "type": "boolean", "optional": true },
+      "showsVerticalScrollIndicator": { "type": "boolean", "optional": true },
+      "showsHorizontalScrollIndicator": { "type": "boolean", "optional": true }
+    },
+    "events": {
+      "onScroll": { "type": "handler", "optional": true },
+      "onContentSizeChange": { "type": "handler", "optional": true }
+    }
+  },
+  {
+    "tag": "StyleSheet",
+    "display_name": "StyleSheet",
+    "category": "sjsx/react-native/basic",
+    "doc_url": "https://reactnative.dev/docs/stylesheet",
+    "description": "CSS stylesheet-like abstraction. Meta node for named style definitions (not a visual component).",
+    "kind": "meta",
+    "can_have_children": false,
+    "attrs": {
+      "name": { "type": "string", "optional": false, "widget": "text" },
+      "rules": { "type": "object", "optional": false, "widget": "json", "description": "StyleSheet.create({ ... }) body" }
+    },
+    "events": {}
+  }
+]

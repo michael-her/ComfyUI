@@ -1,0 +1,55 @@
+{
+  "vocabulary": "react-native",
+  "version": 1,
+  "layer": "ui",
+  "source": "https://reactnative.dev/docs/components-and-apis",
+  "palette_root": "sjsx/react-native",
+  "categories": [
+    {
+      "id": "basic",
+      "label": "Basic Components",
+      "file": "basic.json",
+      "doc": "https://reactnative.dev/docs/components-and-apis#basic-components"
+    },
+    {
+      "id": "ui",
+      "label": "User Interface",
+      "file": "ui.json",
+      "doc": "https://reactnative.dev/docs/components-and-apis#user-interface"
+    },
+    {
+      "id": "lists",
+      "label": "List Views",
+      "file": "lists.json",
+      "doc": "https://reactnative.dev/docs/components-and-apis#list-views"
+    },
+    {
+      "id": "touchable",
+      "label": "Touchable",
+      "file": "touchable.json"
+    },
+    {
+      "id": "layout",
+      "label": "Layout & Overlay",
+      "file": "layout.json",
+      "doc": "https://reactnative.dev/docs/components-and-apis#others"
+    },
+    {
+      "id": "feedback",
+      "label": "Feedback",
+      "file": "feedback.json"
+    },
+    {
+      "id": "android",
+      "label": "Android",
+      "file": "android.json",
+      "doc": "https://reactnative.dev/docs/components-and-apis#android-components-and-apis"
+    },
+    {
+      "id": "ios",
+      "label": "iOS",
+      "file": "ios.json",
+      "doc": "https://reactnative.dev/docs/components-and-apis#ios-components-and-apis"
+    }
+  ]
+}

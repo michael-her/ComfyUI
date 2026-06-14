@@ -1,0 +1,59 @@
+[
+  {
+    "tag": "TouchableOpacity",
+    "display_name": "TouchableOpacity",
+    "category": "sjsx/react-native/touchable",
+    "doc_url": "https://reactnative.dev/docs/touchableopacity",
+    "description": "Wrapper that reduces opacity when pressed.",
+    "can_have_children": true,
+    "attrs": {
+      "cx": { "type": "string", "optional": true, "widget": "text" },
+      "activeOpacity": { "type": "number", "optional": true, "default": 0.2 },
+      "disabled": { "type": "boolean", "optional": true }
+    },
+    "events": {
+      "onPress": { "type": "handler", "optional": true },
+      "onLongPress": { "type": "handler", "optional": true },
+      "onPressIn": { "type": "handler", "optional": true },
+      "onPressOut": { "type": "handler", "optional": true }
+    }
+  },
+  {
+    "tag": "TouchableHighlight",
+    "display_name": "TouchableHighlight",
+    "category": "sjsx/react-native/touchable",
+    "doc_url": "https://reactnative.dev/docs/touchablehighlight",
+    "description": "Wrapper that darkens the wrapped view when pressed.",
+    "can_have_children": true,
+    "attrs": {
+      "cx": { "type": "string", "optional": true, "widget": "text" },
+      "underlayColor": { "type": "string", "optional": true },
+      "activeOpacity": { "type": "number", "optional": true },
+      "disabled": { "type": "boolean", "optional": true }
+    },
+    "events": {
+      "onPress": { "type": "handler", "optional": true },
+      "onLongPress": { "type": "handler", "optional": true },
+      "onShowUnderlay": { "type": "handler", "optional": true },
+      "onHideUnderlay": { "type": "handler", "optional": true }
+    }
+  },
+  {
+    "tag": "TouchableWithoutFeedback",
+    "display_name": "TouchableWithoutFeedback",
+    "category": "sjsx/react-native/touchable",
+    "doc_url": "https://reactnative.dev/docs/touchablewithoutfeedback",
+    "description": "Touchable wrapper with no visual feedback on press.",
+    "can_have_children": true,
+    "attrs": {
+      "cx": { "type": "string", "optional": true, "widget": "text" },
+      "disabled": { "type": "boolean", "optional": true }
+    },
+    "events": {
+      "onPress": { "type": "handler", "optional": true },
+      "onLongPress": { "type": "handler", "optional": true },
+      "onPressIn": { "type": "handler", "optional": true },
+      "onPressOut": { "type": "handler", "optional": true }
+    }
+  }
+]
